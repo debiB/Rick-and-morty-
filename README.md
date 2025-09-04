@@ -10,6 +10,18 @@ A Next.js application that allows users to search for locations from the Rick an
 - Generate fun facts about characters using Gemini AI
 - Keep track of all characters searched so far (in memory)
 
+## Approach to the Problem
+
+I approached this project with a focus on creating user-friendly interface that leverages modern web technologies while maintaining good performance. The key aspects of my approach were:
+
+1. **API Integration**: Used RTK Query for efficient data fetching with automatic caching to minimize API calls to the Rick and Morty API.
+
+2. **In-Memory Caching**: Implemented custom cache managers for both locations and characters to improve performance and reduce redundant API calls.
+
+3. **Component-Based Architecture**: Built reusable UI components following the principles of atomic design to ensure maintainability and consistency.
+
+4. **AI Integration**: Incorporated Gemini AI to enhance the user experience by generating dynamic content about characters.
+
 ## Tech Stack
 
 - **Framework**: Next.js 13+ (App Router)
@@ -42,13 +54,25 @@ A Next.js application that allows users to search for locations from the Rick an
   layout.tsx - Root layout with providers
 ```
 
-## Models
+## Model/Structure
 
-### Character
+I chose a model structure that closely mirrors the Rick and Morty API data structure while adding custom caching layers:
+
+### Data Models
+
+#### Character
 Represents a character from the Rick and Morty universe with properties like name, status, species, image, etc.
 
-### Location
+#### Location
 Represents a location from the Rick and Morty universe with properties like name, type, dimension, and residents.
+
+### Cache Structure
+
+I implemented two singleton cache managers:
+
+1. **LocationCacheManager**: Maps search terms to location results to avoid redundant API calls when users search for the same location multiple times.
+
+2. **CharacterCacheManager**: Stores characters by location name, allowing quick access to previously fetched character data and tracking all unique characters encountered during the session.
 
 ## AI Prompt
 
@@ -58,17 +82,27 @@ The application uses the following prompt to generate fun facts about characters
 Write a short, interesting one-sentence fun fact about Rick and Morty character ${character.name}, who is a ${character.species} and has a status of ${character.status}
 ```
 
-## Limitations
+## What Works, What Doesn't, and Future Improvements
 
-Limited error handling for API failures: The application currently does not robustly handle errors that may occur during API calls. Improvements could include user-friendly error messages, retries, or fallback UI.
+### What Works Well
 
-Basic UI design: The current interface is plain and minimal. Enhancements could include improved styling, layout adjustments, and visual feedback to create a more engaging user experience.
+- **Efficient API Integration**: RTK Query provides automatic caching and refetching strategies
+- **In-Memory Caching**: Custom cache managers reduce API calls and improve performance
+- **Responsive UI**: The application works well across different screen sizes
+- **AI Integration**: Gemini API successfully generates interesting facts about characters
 
+### Current Limitations
 
-## Potential Improvements
+- **Limited Error Handling**: The application does not robustly handle API failures
+- **Basic UI Design**: The interface is functional but could be more visually engaging
+- **In-Memory Only**: All data is lost on page refresh as there's no persistent storage
+- **No Testing**: Lacks unit and integration tests
+
+### Future Improvements
 
 - Add persistent storage for search history (localStorage or database)
 - Add more detailed character information and filtering options
-- Improve error handling and loading states
-- Add unit and integration tests
-- Add more AI-generated content options
+- Improve error handling with user-friendly messages and fallback UI
+- Add comprehensive test coverage
+- Enhance the UI with animations and more interactive elements
+- Add more AI-generated content options and allow users to customize prompts
