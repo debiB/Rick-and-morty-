@@ -88,21 +88,18 @@ Write a short, interesting one-sentence fun fact about Rick and Morty character 
 
 - **Efficient API Integration**: RTK Query provides automatic caching and refetching strategies
 - **In-Memory Caching**: Custom cache managers reduce API calls and improve performance
-- **Responsive UI**: The application works well across different screen sizes
 - **AI Integration**: Gemini API successfully generates interesting facts about characters
 
 ### Current Limitations
 
 - **Limited Error Handling**: The application does not robustly handle API failures
-- **Basic UI Design**: The interface is functional but could be more visually engaging
 - **In-Memory Only**: All data is lost on page refresh as there's no persistent storage
 - **No Testing**: Lacks unit and integration tests
-
+- **Responsiveness**: The application is not fully responsive and may not work optimally on all screen sizes
 ### Future Improvements
 
 - Add persistent storage for search history (localStorage or database)
 - Add more detailed character information and filtering options
 - Improve error handling with user-friendly messages and fallback UI
 - Add comprehensive test coverage
-- Enhance the UI with animations and more interactive elements
 - Add more AI-generated content options and allow users to customize prompts

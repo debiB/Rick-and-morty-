@@ -12,6 +12,7 @@ import Navbar from '../components/Navbar';
 import LocationCacheStatus from '../components/LocationCacheStatus';
 import { Card, CardContent } from '../components/ui/card';
 import { locationCache } from '../lib/locationCache';
+import { Brain, Loader2 } from 'lucide-react';
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -149,33 +150,43 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto py-8 px-4">
+      <div className="container mx-auto py-10 px-4 relative z-10">
       
-      <div className={`flex flex-col items-center mb-8 ${characters && characters.length > 0 ? '' : 'h-[50vh] justify-center'}`}>
-        <SearchBar 
-          onSearch={handleSearch} 
-          isLoading={isLoading} 
-          searchHistory={searchHistory}
-          onClearHistory={handleClearHistory}
-        />
+      <div className={`flex flex-col items-center mb-10 ${characters && characters.length > 0 ? '' : 'h-[50vh] justify-center'}`}>
+        <div className="w-full max-w-3xl mx-auto">
+          <SearchBar 
+            onSearch={handleSearch} 
+            isLoading={isLoading} 
+            searchHistory={searchHistory}
+            onClearHistory={handleClearHistory}
+          />
+        </div>
       </div>
       
       {characters && characters.length > 0 && (
-        <Card className="mb-8">
+        <Card className="mb-10 border border-secondary/20 overflow-hidden bg-gradient-to-br from-background to-secondary/5 shadow-lg">
           <CardContent className="p-6">
-            <h2 className="text-xl font-semibold mb-2">Fun Fact</h2>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="h-10 w-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+                <Brain className="h-6 w-6" />
+              </div>
+              <h2 className="text-xl font-bold text-secondary">Interdimensional Fun Fact</h2>
+            </div>
             {isGeneratingFact ? (
-              <p className="italic text-gray-500">Fetching fun fact...</p>
+              <div className="flex items-center gap-2 text-muted-foreground italic">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <p>Extracting knowledge from the multiverse...</p>
+              </div>
             ) : (
-              <p>{funFact}</p>
+              <p className="text-lg leading-relaxed pl-12">{funFact}</p>
             )}
           </CardContent>
         </Card>
       )}
       
       {locationError && (
-        <div className="text-center text-red-500 mb-8">
-          <p>Error: Location not found. Try another search term.</p>
+        <div className="text-center bg-destructive/10 text-destructive p-4 rounded-lg mb-10 max-w-xl mx-auto border border-destructive/20">
+          <p className="font-medium">Error: Location not found in this dimension. Try another search term.</p>
         </div>
       )}
       

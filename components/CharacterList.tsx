@@ -10,6 +10,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from './ui/pagination';
+import { Zap } from 'lucide-react';
 
 interface CharacterListProps {
   characters: Character[];
@@ -48,22 +49,34 @@ export default function CharacterList({ characters, locationName }: CharacterLis
   
   return (
     <div className="w-full">
-      <h2 className="text-xl font-semibold mb-4">Characters from {locationName}</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {currentCharacters.map((character) => (
-          <CharacterCard key={character.id} character={character} />
+      <h2 className="text-2xl font-bold mb-6 flex items-center gap-2 text-primary">
+        <div className="h-8 w-8 rounded-full bg-primary/20 flex items-center justify-center">
+          <Zap className="h-5 w-5 text-primary" />
+        </div>
+        Characters from <span className="text-secondary font-extrabold">{locationName}</span>
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-in fade-in-50 duration-500">
+        {currentCharacters.map((character, index) => (
+          <div 
+            key={character.id} 
+            className="animate-in fade-in-0 slide-in-from-bottom-3 duration-300"
+            style={{ animationDelay: `${index * 75}ms` }}
+          >
+            <CharacterCard character={character} />
+          </div>
         ))}
       </div>
       
       {totalPages > 1 && (
-        <Pagination className="mt-8">
-          <PaginationContent>
+        <Pagination className="mt-10">
+          <PaginationContent className="bg-background/80 backdrop-blur-sm py-2 px-4 rounded-full border border-primary/10 shadow-md">
             <PaginationItem>
               <PaginationPrevious 
                 onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
                 size="default"
-              />
+                className="hover:text-primary hover:bg-primary/5 transition-colors"
+              />  
             </PaginationItem>
             
             {pageNumbers.map(number => {
@@ -79,6 +92,7 @@ export default function CharacterList({ characters, locationName }: CharacterLis
                       isActive={number === currentPage}
                       onClick={() => handlePageChange(number)}
                       size="default"
+                      className={`${number === currentPage ? 'bg-primary text-primary-foreground hover:bg-primary/90' : 'hover:bg-primary/10 hover:text-primary'} transition-colors font-medium`}
                     >
                       {number}
                     </PaginationLink>
@@ -102,6 +116,7 @@ export default function CharacterList({ characters, locationName }: CharacterLis
                 onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
                 size="default"
+                className="hover:text-primary hover:bg-primary/5 transition-colors"
               />
             </PaginationItem>
           </PaginationContent>
